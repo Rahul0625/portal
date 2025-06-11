@@ -1,37 +1,31 @@
 <project name="MobiversaAdmin" basedir="." default="dist">
 
     <!-- Folder structure -->
-    <property name="src.dir"     value="WEB-INF"/>
-    <property name="build.dir"   value="build"/>
     <property name="web.dir"     value="."/>
     <property name="dist.dir"    value="dist"/>
     <property name="war.file"    value="${dist.dir}/MobiversaAdmin.war"/>
 
     <target name="clean">
-        <delete dir="${build.dir}"/>
         <delete dir="${dist.dir}"/>
     </target>
 
-    <target name="compile">
-        <mkdir dir="${build.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
-            <classpath>
-                <fileset dir="${src.dir}/lib">
-                    <include name="**/*.jar"/>
-                </fileset>
-            </classpath>
-        </javac>
-    </target>
-
-    <target name="dist" depends="clean, compile">
+    <target name="dist" depends="clean">
         <mkdir dir="${dist.dir}"/>
         <war destfile="${war.file}" webxml="${web.dir}/WEB-INF/web.xml">
+            <!-- Include all necessary web resources -->
             <fileset dir="${web.dir}">
-                <!-- Exclude build artifacts -->
+                <!-- Exclude unnecessary files/folders -->
                 <exclude name="build/**"/>
                 <exclude name="dist/**"/>
+                <exclude name="build.xml"/>
+                <exclude name="**/*.iml"/>
+                <exclude name=".git/**"/>
+                <exclude name=".idea/**"/>
+                <exclude name="**/.DS_Store"/>
             </fileset>
-            <classes dir="${build.dir}"/>
+
+            <!-- Use existing compiled classes -->
+            <classes dir="WEB-INF/classes"/>
         </war>
     </target>
 
