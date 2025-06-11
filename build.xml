@@ -1,7 +1,7 @@
 <project name="PortalBuild" basedir="." default="dist">
 
     <!-- Folder structure -->
-    <property name="src.dir" value="WEB-INF/classes"/>
+    <property name="src.dir" value="WEB-INF"/>
     <property name="build.dir"   value="build"/>
     <property name="web.dir"     value="."/>
     <property name="dist.dir"    value="dist"/>
