@@ -1,10 +1,11 @@
-<project name="MyWebApp" basedir="." default="dist">
+<project name="PortalBuild" basedir="." default="dist">
 
-    <property name="src.dir"     value="src"/>
+    <!-- Folder structure -->
+    <property name="src.dir" value="WEB-INF/classes"/>
     <property name="build.dir"   value="build"/>
-    <property name="web.dir"     value="WebContent"/>
+    <property name="web.dir"     value="."/>
     <property name="dist.dir"    value="dist"/>
-    <property name="war.file"    value="${dist.dir}/MyWebApp.war"/>
+    <property name="war.file"    value="${dist.dir}/PortalApp.war"/>
 
     <target name="clean">
         <delete dir="${build.dir}"/>
@@ -15,7 +16,7 @@
         <mkdir dir="${build.dir}"/>
         <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
             <classpath>
-                <fileset dir="WebContent/WEB-INF/lib">
+                <fileset dir="${src.dir}/lib">
                     <include name="**/*.jar"/>
                 </fileset>
             </classpath>
@@ -25,8 +26,13 @@
     <target name="dist" depends="clean, compile">
         <mkdir dir="${dist.dir}"/>
         <war destfile="${war.file}" webxml="${web.dir}/WEB-INF/web.xml">
-            <fileset dir="${web.dir}"/>
+            <fileset dir="${web.dir}">
+                <!-- Exclude build artifacts -->
+                <exclude name="build/**"/>
+                <exclude name="dist/**"/>
+            </fileset>
             <classes dir="${build.dir}"/>
         </war>
     </target>
+
 </project>
